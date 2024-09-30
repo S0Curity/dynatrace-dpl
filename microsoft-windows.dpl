@@ -1,0 +1,71 @@
+// Considered EventID: 4624, 4625, 4648, 4656, 4657, 4663, 4672, 4688, 4697, 4698, 4739, 4768
+
+PARSE(content, "LD:'winlog.eventname' '.' DATA")
+
+// Fields for User Details
+|PARSE(content,"DATA 'Security ID:' BLANK LD:winlog.subject.securityid")
+|PARSE(content,"DATA ('Subject:'|'Account Information:') DATA 'Account Name:' BLANK LD:winlog.subject.accountname EOL")
+|PARSE(content,"DATA 'Account Domain:' BLANK LD:winlog.subject.accountdomain EOL")
+|PARSE(content,"DATA ('Target Subject:'|'Account Whose Credentials Were Used:'|'Credentials Which Were Replayed:'|'User:'|'New Account:'|'New Computer Account:'|'Target Account:'|'Target Computer:'|'Member:'|'Account That Was Locked Out:'|'Computer Account That Was Changed:') DATA 'Security ID:' BLANK LD:winlog.target.securityid EOL")
+|PARSE(content,"DATA ('Target Subject:'|'Account Whose Credentials Were Used:'|'Credentials Which Were Replayed:'|'User:'|'New Account:'|'New Computer Account:'|'Target Account:'|'Target Computer:'|'Member:'|'Account That Was Locked Out:'|'Computer Account That Was Changed:') DATA 'Account Name:' BLANK LD:winlog.target.accountname EOL")
+|PARSE(content,"DATA ('Target Subject:'|'Account Whose Credentials Were Used:'|'Credentials Which Were Replayed:'|'User:'|'New Account:'|'New Computer Account:'|'Target Account:'|'Target Computer:'|'Member:'|'Account That Was Locked Out:'|'Computer Account That Was Changed:') DATA 'Account Domain:' BLANK LD:winlog.target.accountdomain EOL")
+|PARSE(content,"DATA ('New Logon:'|'Account For Which Logon Failed:') DATA 'Security ID:' BLANK LD:winlog.logon.securityid EOL")
+|PARSE(content,"DATA ('New Logon:'|'Account For Which Logon Failed:') DATA 'Account Name:' BLANK LD:winlog.logon.accountname EOL")
+|PARSE(content,"DATA ('New Logon:'|'Account For Which Logon Failed:') DATA 'Account Domain:' BLANK LD:winlog.logon.accountdomain EOL")
+|PARSE(content,"DATA 'Account Information:' DATA 'User ID:' BLANK LD:winlog.account.userid EOL")
+|PARSE(content,"DATA 'Account Information:' DATA 'Supplied Realm Name:' BLANK LD:winlog.account.realm.name EOL")
+
+// Fields for AAA
+|PARSE(content,"DATA 'Logon Type:' BLANK INT:winlog.logon.type")
+|PARSE(content,"DATA 'Logon Process:' BLANK LD:winlog.auth.logonprocess EOL")
+|PARSE(content,"DATA 'Authentication Package:' BLANK LD:winlog.auth.package EOL")
+|PARSE(content,"DATA 'Key Length:' BLANK INT:winlog.auth.keylength")
+|PARSE(content,"DATA 'Failure Reason:' BLANK LD:winlog.auth.failurereason")
+|PARSE(content,"DATA 'Status:' BLANK LD:winlog.auth.status")
+|PARSE(content,"DATA 'Sub Status:' BLANK LD:winlog.auth.substatus")
+
+//Fields for User & Domain Groups
+|PARSE(content,"DATA 'Group:' DATA 'Security ID:' BLANK LD:winlog.group.securityid EOL")
+|PARSE(content,"DATA ('User:'|'Group:') DATA 'Group Name:' BLANK LD:winlog.group.groupname EOL")
+|PARSE(content,"DATA ('User:'|'Group:') DATA 'Group Domain:' BLANK LD:winlog.group.groupdomain EOL")
+|PARSE(content,"DATA 'Domain:' DATA 'Domain Name:' BLANK LD:winlog.domain.domainname EOL")
+|PARSE(content,"DATA 'Domain:' DATA 'Domain ID:' BLANK LD:winlog.domain.domainid EOL")
+|PARSE(content,"DATA 'Forest Root:' BLANK LD:winlog.domain.forestroot EOL")
+|PARSE(content,"DATA 'Forest Root SID:' BLANK LD:winlog.domain.forestrootsid EOL")
+|PARSE(content,"DATA 'Top Level Name:' BLANK LD:winlog.domain.tld EOL")
+
+
+// Fields for Process Details
+|PARSE(content,"DATA 'Process Name:' BLANK LD:winlog.process.processname EOL")
+|PARSE(content,"DATA 'Service Name:' BLANK LD:winlog.service.servicename EOL")
+|PARSE(content,"DATA 'Service ID:' BLANK LD:winlog.service.serviceid EOL")
+|PARSE(content,"DATA 'Service File Name:' BLANK LD:winlog.service.filename EOL")
+|PARSE(content,"DATA 'Service Account:' BLANK LD:winlog.service.serviceaccount EOL")
+|PARSE(content,"DATA 'Service:' DATA 'Server:' BLANK LD:winlog.service.server EOL")
+|PARSE(content,"DATA 'Creator Process Name:' BLANK LD:winlog.process.creatorprocess EOL")
+|PARSE(content,"DATA 'Process Command line:' BLANK LD:winlog.process.commandline EOL")
+|PARSE(content,"DATA 'Task Name:' BLANK LD:winlog.task.taskname EOL")
+
+
+
+// Fields for Network Details
+|PARSE(content,"DATA ('Workstation Name:'|'Caller Computer Name:') BLANK LD:winlog.network.workstation")
+|PARSE(content,"DATA 'Target Server Name:' BLANK LD:winlog.target.servername")
+|PARSE(content,"DATA 'Network' DATA ('Network Address:'|'Client Address:'|'Source Address:') BLANK IPADDR:winlog.network.address EOL")
+|PARSE(content,"DATA 'Network' DATA 'Port:' BLANK LD:winlog.network.port EOL")
+
+// Fields for Object Access
+|PARSE(content,"DATA 'Object Server:' BLANK LD:winlog.object.server EOL")
+|PARSE(content,"DATA 'Object Type:' BLANK LD:winlog.object.type EOL")
+|PARSE(content,"DATA 'Object Name:' BLANK LD:winlog.object.name EOL")
+|PARSE(content,"DATA 'Object:' DATA 'DN:' BLANK LD:winlog.object.dn EOL")
+|PARSE(content,"DATA 'Object:' DATA 'GUID:' BLANK LD:winlog.object.guid EOL")
+|PARSE(content,"DATA 'Resource Attributes:' BLANK LD:winlog.object.resource.attributes EOL")
+|PARSE(content,"DATA 'Operation Type:' BLANK LD:winlog.object.operation EOL")
+|PARSE(content,"DATA 'Directory Service:' DATA 'Name:' BLANK LD:winlog.directory.name EOL")
+|PARSE(content,"DATA 'Directory Service:' DATA 'Type:' BLANK LD:winlog.directory.type EOL")
+|PARSE(content,"DATA 'Share Information:' DATA 'Share Name:' BLANK LD:winlog.object.sharename EOL")
+|PARSE(content,"DATA 'Share Information:' DATA 'Share Path:' BLANK LD:winlog.object.sharepath EOL")
+
+// Fields for Access Details
+|PARSE(content,"DATA 'Accesses:' BLANK DATA:winlog.access.accesses 'Access Reasons:' DATA")
