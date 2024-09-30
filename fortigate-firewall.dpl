@@ -1,0 +1,11 @@
+parse(content, "TIMESTAMP('MMM dd HH:mm:ss'):receivedTime SPACE IPADDR:deviceIPAddress SPACE
+KVP {LD:key '=' STRING:value ' '?}:log_data") |
+FIELDS_ADD(time: log_data["time"], devName: log_data["devname"],
+eventTime: log_data["eventtime"], type: log_data["type"], subType: log_data["subtype"],
+sourceIP: log_data["srcip"], sourcePort: log_data["srcport"], destinationIP: log_data["dstip"],
+destinationPort: log_data["dstport"], protocol: log_data["proto"], action: log_data["action"],
+policyId: log_data["policyid"], service: log_data["service"], application: log_data["app"],
+duration: log_data["duration"], sentByte: log_data["sentbyte"], userName: log_data["user"],
+eventStatus: log_data["status"], recievedByte: log_data["rcvdbyte"], sentPackets: log_data["sentpkt"],
+receivedPackets: log_data["rcvdpkt"], appCategory: log_data["appcat"], message: log_data["msg"],
+eventDescription: log_data["logdesc"]) | FIELDS_REMOVE(log_data)
