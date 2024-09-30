@@ -1,0 +1,6 @@
+PARSE(content, "TIMESTAMP('yyyy-MM-dd HH:mm:ss'):eventtime SPACE INT SPACE IPADDR:srcip
+SPACE INT:status.code SPACE LD:outcome SPACE INT SPACE INT SPACE WORD:http.method
+SPACE WORD:transportprotocol SPACE LD:http.url SPACE INT:dstport SPACE LD:http.uri
+SPACE LD:http.parameters SPACE LD:username SPACE LD SPACE LD SPACE IPADDR:dstip SPACE LD
+SPACE LD SPACE LD:action SPACE LD SPACE LD SPACE IPADDR:natsrcip
+SPACE LD")
